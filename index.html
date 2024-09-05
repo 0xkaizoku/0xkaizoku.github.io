@@ -1,123 +1,103 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Background changer</title>
+    <title>BMI Calculator</title>
 </head>
 <body>
-    <div class="canvas">
-        <h1>Tap on color blocks to change UI Color</h1>
-     <span class="buttons" id="black"></span>
-     <span class="buttons" id="white"></span>
-     <span class="buttons" id="yellow"></span>
-     <span class="buttons" id="red"></span>
-     <span class="buttons" id="pink"></span>
-     <span class="buttons" id="green"></span>
-     <span class="buttons" id="orange"></span>
-     <span class="buttons" id="cyan"></span>
- <h2>Choose Any Color to change background</h2>
-    </div>
-
-    <style>
-      body {
-        margin: 0px;
-        background-color: lavender;
-        max-width: 100%;
-      }
-      .canvas{
-        height: 600px;
-        width: 600px;
-        display: inline-block;
-        margin-top: 20px;
-        margin-left: 20px;
-         padding: 5px;
-        border-radius: 10px;
-      }
-
-      .buttons{
-        height: 100px;
-        width: 200px;
-        border: 1.5px solid black;
-        display: inline-block;
-      }
-      #black{
-        background-color: black;
-      }
-      #white{
-        background-color: white;
-      }
-      #orange{
-        background-color:orange;
-      }
-      #red{
-        background-color: red;
-      }
-      #yellow{
-        background-color: yellow;
-      }
-      #green{
-        background-color: green;
-      }
-      #cyan{
-        background-color:cyan;
-      }
-      #pink{
-        background-color: pink;
-      }
-      h1{
-        font-family: 'Courier New', Courier, monospace;
-        font-size: larger;
-      }
-      h2{
-        font-family: 'Courier New', Courier, monospace;
-      }
-
-    </style>
-    <script>
-
-    let button = document.querySelectorAll('.buttons')
-    let body = document.querySelector('body')
-    let h1 = document.querySelector('h1')
-    let h2 = document.querySelector('h2')
-
-    button.forEach((buttons)=>{
-    buttons.addEventListener('click',(e)=>{
-       if(e.target.id === 'black'){
-        body.style.backgroundColor = 'black';
-        h1.style.color = 'white'
-        h2.style.color = 'white'
     
-       }
-       if(e.target.id === 'cyan'){
-        body.style.backgroundColor = 'cyan'
-       }
-       if(e.target.id === 'red'){
-        body.style.backgroundColor = 'red'
-       }
-       if(e.target.id === 'green'){
-        body.style.backgroundColor = 'green'
-       }
-       if(e.target.id === 'yellow'){
-        body.style.backgroundColor = 'yellow'
-        h1.style.color = 'black'
-        h2.style.color = 'black'
-       }
-       if(e.target.id === 'orange'){
-        body.style.backgroundColor = 'orange'
-       }
-       if(e.target.id === 'pink'){
-        body.style.backgroundColor = 'pink'
-       }
-       if(e.target.id === 'white'){
-        body.style.backgroundColor = 'white'
-         h1.style.color = 'black'
-        h2.style.color = 'black'
-       }
+<div class="container">
 
-    })
-    })
+<form>
 
-    </script>
+<h1>BMI Calculator</h1>
+<p><lable>Height in CM <input type="text" id="height"></lable></p>
+<p><lable>Weight in KG <input type="text" id="weight"></lable></p>
+<button id="button">Calculate</button>
+<br>
+<div id = "result"></div>
+<br>
+
+
+<h2>Result guide :</h2>
+<p>Underweight : BMI less than 18.5</p>
+<p>Healthy weight : BMI between 18.5 and 24.9</p>
+<p>Overweight : BMI between 25 and 29.9</p>
+<p>Obese : BMI between 30 and 39.9</p>
+<p>Severely obese : BMI of 40 or more </p>
+
+
+</form>
+
+
+</div>
+<style>
+
+body{
+    background-color:pink;
+}
+.container{
+    border: 1px solid black;
+    border-radius: 2px;
+    margin: 20px;
+    padding: 20px;
+    border-width: 1px;
+    display: inline-block;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#button{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 3px;
+    display:flex;
+    text-transform: uppercase;
+    
+}
+
+</style>
+
+<script>
+
+let form = document.querySelector('form');
+
+form.addEventListener('submit',(e)=>{
+ e.preventDefault();
+
+let height = parseInt(document.querySelector('#height').value)
+let weight = parseInt(document.querySelector('#weight').value)
+let result = document.querySelector('#result')
+
+if(height === 0 || height <0 || isNaN(height)){
+    result.innerHTML = `Invalid height ${height}`;
+
+}
+else if(weight === 0 || weight<0 || isNaN(weight)){
+ result.innerHTML = `Invalid weight`
+}
+else{
+    let bmi = (weight / ((height / 100) ** 2)).toFixed(2);
+             
+             if(bmi<18.5){
+                result.innerHTML = `<span>Your BMI is : ${bmi}, and you are underweight 😨</span>` 
+             }
+             if(bmi>18.5 && bmi<25.91 ){
+                result.innerHTML = `<span>Your BMI is : ${bmi}, and you are of healthy weight 😀</span>` 
+             }
+            if(bmi>25.9 && bmi<29.91){
+                result.innerHTML = `<span>Your BMI is : ${bmi}, and you are overweight 😅</span>` 
+             }
+             if(bmi>29.91 && bmi<39.91){
+                result.innerHTML = `<span>Your BMI is : ${bmi}, and you are Obese 🫤</span>` 
+             }
+             if(bmi>39.91){
+                result.innerHTML = `<span>Your BMI is : ${bmi}, and you are severly Obese 🤯</span>` 
+             }
+}
+
+})
+
+
+</script>
 </body>
 </html>
