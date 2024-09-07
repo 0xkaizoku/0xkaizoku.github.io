@@ -3,218 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guess the Number</title>
-
+    <title>Dad jokes generator</title>
 </head>
 <body>
-    <div class="canvas">
-        <h1>Number Guessing Game</h1>
-        <p>Try and guess a number between 1 and 100</p>
-        <p>You have 10 attempts to guess the right number</p>
-       
-        <form class="form">
-            <label for="guessField" id="guess">Guess a number : </label>
-            <br>
-           
-            <input type="text" id="guessField" class="guessField">
-            <input type="submit" id="sub" value="Submit guess">
-            <p class="lowOrHigh"></p>
-            <br>
-        </form>
+    
+<div class="container">
+<h1 class="heading">Dad Jokes Generator</h1>
+<p class="joke" id="joke">Dad Joke</p>
+<button class="btn">Tell me a joke</button>
+</div>
 
-        <div class="result">
-            <p id="prev">Previous guesses: <span class="guesses"></span></p>
-            <p id="remain">Guesses remaining: <span class="lastResult">10</span></p>
-            <br>
-            <p> i suck at css,so i generated it by chatgpt 🦴🤖</p>
-        </div>
-    </div>
 
-    <script>
-        let randomNum = parseInt(Math.random() * 100 + 1);
-        let sub = document.querySelector('#sub');
-        let userInput = document.querySelector('#guessField');
-        let guesses = document.querySelector('.guesses');
-        let remaining = document.querySelector('.lastResult');
-        let lowOrHigh = document.querySelector('.lowOrHigh');
-        let prevGuess = [];
-        let numGuess = 1;
-        let playGame = true;
-
-        if (playGame) {
-            sub.addEventListener('click', (e) => {
-                e.preventDefault();
-                let guess = parseInt(userInput.value);
-                validateGuess(guess);
-            });
-        }
-
-        function validateGuess(guess) {
-            if (isNaN(guess)) {
-                alert('Please enter a valid guess');
-            } else if (guess < 1 || guess > 100) {
-                alert('Please enter a valid guess between 1 and 100');
-            } else {
-                prevGuess.push(guess);
-                if (numGuess >= 10) {
-                    displayGuess(guess);
-                    displayMessage(`Game over! The random number was ${randomNum}`);
-                    endGame();
-                } else {
-                    displayGuess(guess);
-                    checkGuess(guess);
-                }
-            }
-        }
-
-        function checkGuess(guess) {
-            if (guess === randomNum) {
-                displayMessage('Congratulations! You guessed it right.😀');
-                endGame();
-            } else if (guess < randomNum) {
-                displayMessage('Your guess is too low.🫤');
-            } else if (guess > randomNum) {
-                displayMessage('Your guess is too high.🫤');
-            }
-        }
-
-        function displayGuess(guess) {
-            userInput.value = '';
-            guesses.innerHTML += `${guess} `;
-            numGuess++;
-            remaining.innerHTML = `${11 - numGuess}`;
-        }
-
-        function displayMessage(msg) {
-    if (msg.includes('Congratulations')) {
-        lowOrHigh.innerHTML = `<h2 style="color: #00ff00;">${msg}</h2>`; // Green for Congratulations
-    } else {
-        lowOrHigh.innerHTML = `<h2 style="color: #ff0000;">${msg}</h2>`; // Red for low or high
-    }
+<style>
+body{
+    margin : 0;
+    background: linear-gradient(to left bottom,lightblue,lightpink,lightblue);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace;
+    
+}
+.container{
+    background-color: rgba(255, 255,255, .3);
+    padding: 20px;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    border-radius: 15px;
+    width: 85%;
+    text-align: center;
+    color:rgb(189, 2, 189);
+    display: inline-block;
+ 
+}
+.heading{
+    font-size: 35px;
+    font-weight: 200;
+    font-family : fantasy;
+    text-shadow: 4px 5px 2px rgba(0,0,0,0.3);
+    letter-spacing: 2px;
+    
 }
 
+.joke{
+    font-size: 25px;
+    font-weight: 500;
+    margin : 40px
+}
 
-        function endGame() {
-            userInput.disabled = true;
-            sub.disabled = true;
+.btn{
+font-size: 18px;
+font-weight: 700;
+border-radius: 5px;
+cursor: pointer;
+padding: 10px;
+background-color: rgba(255,255, 255,0.6);
+text-transform: uppercase;
+width: 300px;
+color: rgb(0, 45, 14);
+}
 
-            let newButton = document.createElement('button');
-            newButton.textContent = 'Start New Game';
-            newButton.addEventListener('click', () => newGame());
-            document.querySelector('.canvas').appendChild(newButton);
-        }
+.btn:hover{
+    background-color: rgba(0,0,0,0.5);
+    box-shadow: 0 4px 4px rgba(0,0,0,0.3);
+    transition: all 300ms ease;
+}
+    
+</style>
 
-        function newGame() {
-            randomNum = parseInt(Math.random() * 100 + 1);
-            prevGuess = [];
-            numGuess = 1;
-            guesses.innerHTML = '';
-            remaining.innerHTML = '10';
-            lowOrHigh.innerHTML = '';
-            userInput.disabled = false;
-            sub.disabled = false;
-            userInput.value = '';
-            document.querySelector('button').remove(); // Remove the new game button
-        }
-    </script>
-        <style>
-            body {
-                font-family: 'Poppins', sans-serif;
-                background: linear-gradient(135deg, rgb(255, 129, 180), #ffcc00);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-                color: #fff;
-            }
+<script>
+
+const btn = document.querySelector('.btn');
+const joke = document.querySelector('.joke');
+const apiKey = "5Jwc01O67KVsqY1oWm3ygQ==TdT6RWt5EMXZZpGI"
+const options = {
+    method: "GET",
+    headers : {
+        "X-Api-Key":apiKey,
+    },
+};
+
+const apiURL = "https://api.api-ninjas.com/v1/dadjokes"
+
+async function getJoke(){
+
+    try{
+        joke.innerText = "getting the joke..."
+    btn.disabled = true;
+    btn.innerText = "Loading...";
+    const response = await fetch(apiURL,options)
+    const data = await response.json();
+    btn.disabled = false;
+    btn.innerText = "Tell me a joke";
+    // console.log(data);
+    joke.innerHTML = `<span>${data[0].joke}</span>`
+ 
+    } 
+    catch(err){
+        console.log(err);
+        joke.innerHTML = `<span>Error, check your internet connection :/</span>`
+        btn.disabled = false;
+        btn.innerText = "Tell me a joke";
+    }  
     
-            .canvas {
-                background: rgba(0, 0, 0, 0.6);
-                padding: 2rem;
-                border-radius: 20px;
-                box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
-                text-align: center;
-                max-width: 400px;
-                width: 100%;
-            }
     
-            h1 {
-                font-size: 2rem;
-                margin-bottom: 10px;
-                color: #ffd700;
-            }
-    
-            p {
-                font-size: 1.1rem;
-            }
-    
-            form {
-                margin-top: 1rem;
-            }
-    
-            input[type="text"] {
-                padding: 10px;
-                width: 80%;
-                border: none;
-                border-radius: 5px;
-                margin-bottom: 10px;
-                font-size: 1rem;
-            }
-    
-            input[type="submit"] {
-                padding: 10px 20px;
-                background-color: #ffd700;
-                border: none;
-                border-radius: 5px;
-                color: #000;
-                cursor: pointer;
-                font-size: 1rem;
-                transition: background-color 0.3s ease;
-            }
-    
-            input[type="submit"]:hover {
-                background-color: #ffae00;
-            }
-    
-            .result {
-                margin-top: 1rem;
-            }
-    
-            .guesses, .lastResult, .lowOrHigh h2 {
-                font-size: 1.2rem;
-                margin: 10px 0;
-            }
-    
-            .lowOrHigh h2 {
-                color: #00ff7f;
-            }
-    
-            button {
-                padding: 10px 20px;
-                background-color: #ff4500;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                font-size: 1rem;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-            }
-    
-            button:hover {
-                background-color: #ff6347;
-            }
-            #guess{
-                color:violet;
-                font-weight: bolder;
-                
-            }
-            #prev{
-                color: #ff6161;
-            }
-            #remain{
-                color: aqua;
-            }
-        </style>
+}
+btn.addEventListener('click',getJoke)
+
+
+</script>
 </body>
 </html>
