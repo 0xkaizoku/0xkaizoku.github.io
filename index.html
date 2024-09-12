@@ -54,11 +54,17 @@ headers : {
 
 async function getLogo(){
 
- const name = input.value;
+    try {
+        const name = input.value;
  const response = await fetch(apiURL+name,options);
  const data = await response.json();
  return data;
- console.log(data);
+    } catch (error) {
+        alert('failure')
+    }
+
+
+
  
 
 }
@@ -71,9 +77,10 @@ image.innerHTML = ""
 later.innerHTML = ""
 
 result.innerHTML = `<span> Loading...</span>`
+
     const data = await getLogo();
 
-if(data){
+if(data && data.length > 0){
     result.innerHTML = `<span> Name : ${data[0].name} </span><br>
                           <span> Ticker : ${data[0].ticker} </span><br>
                         
@@ -81,15 +88,17 @@ if(data){
                           image.innerHTML = `<img src="${data[0].image}" alt="Company Logo" class = "yo">`;
 
                         
-                          input.innerHTML = ""
+                          input.value = ""
                           let time = setTimeout(()=>{
                             later.innerHTML = `<span>The api might provide a random company which contain input text</span>`
                           },1500)
 }
+
+
 else{
     result.innerHTML = `Error, try again`
 }
-
+return data;
 
 })
 
